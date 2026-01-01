@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+    <title>Seth's Photography</title>
+</head>
+
+<body>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="../index.html">
+                <strong>Home</strong>
+            </a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="gallery.html">Gallery</a>
+                <a class="navbar-item" href="tips.html">Photography Tips</a>
+                <a class="navbar-item" href="about.html">About Me</a>
+            </div>
+        </div>
+    </nav>
+    <section class="hero">
+        <div class="hero-body">
+            <p class="title">Diffraction Limitation Calculator</p>
+            <p class="subtitle">A tool to help calculate the diffraction limit of a camera system.</p>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="content">
+                <p>
+                    This calculator helps you determine the diffraction limit of your camera system.
+                    That is, it estimates the smallest detail that can be resolved given your aperture and
+                    contrast threshold. A contrast threshold of 0% means there is no difference between light and dark areas,
+                    while a higher percentage means a more noticeable difference is visible. This means the absolute limit
+                    of resolution is at 0%, but in practical terms, higher contrast thresholds such as 25-50%
+                    are often more useful for real-world photography. Note that a wavelength of 520 nm (green light) is used by default,
+                    this is due to it being in the middle of the visible spectrum and a reasonable choice for general photography.
+                </p>
+            </div>
+            <form id="diffraction-form">
+                <div class="field">
+                    <label class="label">Aperture F Number</label>
+                    <div class="control">
+                        <input class="input" type="number" id="aperture" placeholder="Enter aperture" required step="0.1" inputmode="decimal">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Contrast Threshold</label>
+                    <div class="control">
+                        <input class="input" type="number" id="contrast_threshold"
+                            placeholder="Enter contrast threshold in %" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Wavelength (nm)</label>
+                    <div class="control">
+                        <input class="input" type="number" id="wavelength" value="520">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        <button class="button is-primary" type="submit">Calculate</button>
+                    </div>
+                </div>
+            </form>
+            <div id="result" class="content mt-4 pt-3 is-hidden">
+                <table class="table is-bordered is-striped">
+                    <tbody id="result-body">
+                        <tr>
+                            <th>Aperture</th>
+                            <td id="result-aperture"></td>
+                        </tr>
+                        <tr>
+                            <th>Contrast Threshold</th>
+                            <td id="result-contrast-threshold"></td>
+                        </tr>
+                        <tr>
+                            <th>Absolute Resolution (lp/mm)</th>
+                            <td id="result-absolute-resolution"></td>
+                        </tr>
+                        <tr>
+                            <th>Threshold Resolution (lp/mm)</th>
+                            <td id="result-threshold-resolution"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <script>
+        document.getElementById('diffraction-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const wavelength = parseFloat(document.getElementById('wavelength').value);
+            const aperture = parseFloat(document.getElementById('aperture').value);
+            const contrast_threshold = parseFloat(document.getElementById('contrast_threshold').value);
+            
+            // Calculate diffraction limit in lp/mm
+            const diffraction_limit = calculateDiffractionLimit(wavelength, aperture, contrast_threshold);
+
+            const resultDiv = document.getElementById('result');
+            const resultAperture = document.getElementById('result-aperture');
+            const resultContrastThreshold = document.getElementById('result-contrast-threshold');
+            const resultAbsoluteResolution = document.getElementById('result-absolute-resolution');
+            const resultThresholdResolution = document.getElementById('result-threshold-resolution');
+            resultDiv.classList.remove('is-hidden');
+            resultAperture.innerHTML = aperture;
+            resultContrastThreshold.innerHTML = contrast_threshold + '%';
+            resultAbsoluteResolution.innerHTML = diffraction_limit.cutoffFrequency.toFixed(2);
+            resultThresholdResolution.innerHTML = diffraction_limit.spatialFrequency.toFixed(2);
+        });
+    </script>
+    <script src="diffraction.js"></script>
+</body>
+<footer>
+    <div class="content has-text-centered">
+        <p>© 2026 Seth's Photography. All rights reserved.</p>
+    </div>
+</footer>
+
+</html>
