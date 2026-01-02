@@ -87,7 +87,7 @@
                             <td id="result-contrast-threshold"></td>
                         </tr>
                         <tr>
-                            <th>Absolute Resolution (lp/mm)</th>
+                            <th>Absolute Max Resolution* (lp/mm)</th>
                             <td id="result-absolute-resolution"></td>
                         </tr>
                         <tr>
@@ -96,9 +96,25 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="content">
+                        <p>* Absolute Max Resolution corresponds to a contrast threshold of 0%.</p>
+                </div>
             </div>
         </div>
     </section>
+    <section class="section">
+        <div class="container">
+            <div class="content">
+                <h2 class="title is-4">References</h2>
+                <ul>
+                    <li><a href="https://www.edmundoptics.com/knowledge-center/application-notes/imaging/limitations-on-resolution-and-contrast-the-airy-disk/">Edmund Optics Diffraction Limit</a></li>
+                    <li><a href="https://www.edmundoptics.com/knowledge-center/application-notes/imaging/contrast/">Edmund Optics Contrast</a></li>
+                    <li><a href="https://www.edmundoptics.com/knowledge-center/application-notes/imaging/resolution/">Edmund Optics Resolution</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <script src="diffraction.js"></script>
     <script>
         document.getElementById('diffraction-form').addEventListener('submit', function(event) {
             event.preventDefault();
@@ -107,7 +123,7 @@
             const contrast_threshold = parseFloat(document.getElementById('contrast_threshold').value);
             
             // Calculate diffraction limit in lp/mm
-            const diffraction_limit = calculateDiffractionLimit(wavelength, aperture, contrast_threshold);
+            const diffraction_limit = calculateDiffractionLimit(aperture, contrast_threshold, wavelength);
 
             const resultDiv = document.getElementById('result');
             const resultAperture = document.getElementById('result-aperture');
@@ -117,11 +133,10 @@
             resultDiv.classList.remove('is-hidden');
             resultAperture.innerHTML = aperture;
             resultContrastThreshold.innerHTML = contrast_threshold + '%';
-            resultAbsoluteResolution.innerHTML = diffraction_limit.cutoffFrequency.toFixed(2);
-            resultThresholdResolution.innerHTML = diffraction_limit.spatialFrequency.toFixed(2);
+            resultAbsoluteResolution.innerHTML = diffraction_limit.cutoffFrequency.toFixed(1);
+            resultThresholdResolution.innerHTML = diffraction_limit.spatialFrequency > 0 ? diffraction_limit.spatialFrequency.toFixed(1) : 'N/A';
         });
     </script>
-    <script src="diffraction.js"></script>
 </body>
 <footer>
     <div class="content has-text-centered">
