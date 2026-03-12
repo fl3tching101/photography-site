@@ -40,26 +40,32 @@
             <div class="content">
                 <p>
                     This calculator helps you determine the diffraction limit of your camera system.
-                    That is, it estimates the smallest detail that can be resolved given your aperture and
-                    contrast threshold. A contrast threshold of 0% means there is no difference between light and dark areas,
+                    That is, it estimates the limits of any lens attached to a camera at a given aperture and with a set
+                    contrast threshold. A contrast threshold of 0% means there is no difference between light and dark objects,
                     while a higher percentage means a more noticeable difference is visible. This means the absolute limit
-                    of resolution is at 0%, but in practical terms, higher contrast thresholds such as 25-50%
-                    are often more useful for real-world photography. Note that a wavelength of 520 nm (green light) is used by default,
+                    of resolution is at 0%, but in practice a threshold of about 20% is often used.
+                    Note that a wavelength of 520 nm (green light) is used by default,
                     this is due to it being in the middle of the visible spectrum and a reasonable choice for general photography.
                 </p>
             </div>
-            <form id="diffraction-form">
+            <hr>
+            <h1 class="title is-4">Determine the diffraction limit</h1>
+            <p>
+                This is a fundamental physical limit that only depends on the aperture, contrast threshold, and wavelength of light.
+            </p>
+            <form id="diffraction-form" class="container my-4 py-3">
                 <div class="field">
                     <label class="label">Aperture F Number</label>
                     <div class="control">
-                        <input class="input" type="number" id="aperture" placeholder="Enter aperture" required step="0.1" inputmode="decimal">
+                        <input class="input" type="number" id="aperture" 
+                        placeholder="Enter aperture" required step="0.1" inputmode="decimal" required>
                     </div>
                 </div>
                 <div class="field">
-                    <label class="label">Contrast Threshold</label>
+                    <label class="label">Contrast Threshold (%)</label>
                     <div class="control">
                         <input class="input" type="number" id="contrast_threshold"
-                            placeholder="Enter contrast threshold in %" required>
+                            value="20" required>
                     </div>
                 </div>
                 <div class="field">
@@ -74,7 +80,7 @@
                     </div>
                 </div>
             </form>
-            <div id="result" class="content mt-4 pt-3 is-hidden">
+            <div id="result" class="content my-4 py-3 is-hidden">
                 <table class="table is-bordered is-striped">
                     <tbody id="result-body">
                         <tr>
@@ -98,6 +104,70 @@
                 <div class="content">
                         <p>* Absolute Max Resolution corresponds to a contrast threshold of 0%.</p>
                 </div>
+            </div>
+            <hr>
+            <div class="content my-4 py-3">
+                <h1 class="title is-4">Determine if your sensor is diffraction limited</h1>
+                <p>
+                    To determine if your sensor is diffraction limited, you can calculate the pixel pitch of your sensor and compare it to the diffraction limit calculated above. The pixel pitch is the distance between the centers of two adjacent pixels on your sensor, and it can be calculated using the following formula:
+                    <br><br>
+                    Pixel Pitch (mm) = Sensor Size (mm) / Pixel Count
+                    <br><br>
+                    According to the Nyquist-Shannon sampling theorem, the maximum resolvable frequency is half the sampling rate. In imaging, one "Line Pair" (one black line + one white line) requires a minimum of 2 pixels to be resolved. Therefore, the Nyquist frequency can be calculated as:
+                    <br><br>
+                    Nyquist Frequency (lp/mm) = Pixel Pitch (mm) / 2
+                    <br><br>
+                    If the diffraction limit is smaller than the Nyquist frequency, then your sensor is diffraction limited at that aperture and contrast threshold. This means that the limiting factor is the physics of light rather than the sensor's ability to capture detail or lens' performance.
+                </p>
+                <form id="sensor-size-form">
+                    <div class="field">
+                    <label class="label">Long edge pixel count</label>
+                    <div class="control">
+                        <input class="input" type="number" id="long_edge_pixels" 
+                            placeholder="Enter long edge pixel count" required step="1" inputmode="integer" required>
+                    </div>
+                    <div class="field">
+                        <label class="label">Long edge length (mm)</label>
+                        <div class="control">
+                            <input class="input" type="number" id="long_edge_length" 
+                            placeholder="Enter long edge length" required step="0.1" inputmode="decimal" required>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Short edge pixel count</label>
+                        <div class="control">
+                            <input class="input" type="number" id="short_edge_pixels"
+                                 placeholder="Enter short edge pixel count" required step="1" inputmode="integer" required>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Short edge length (mm)</label>
+                        <div class="control">
+                            <input class="input" type="number" id="short_edge_length" 
+                            placeholder="Enter short edge length" required step="0.1" inputmode="decimal" required>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-primary" type="submit">Calculate</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="nyquist-result" class="content my-4 py-3 is-hidden">
+                <table class="table is-bordered is-striped">
+                    <tbody id="nyquist-result-body">
+                        <tr>
+                            <th>Nyquist Frequency (lp/mm)</th>
+                            <td id="nyquist-frequency"></td>
+                        </tr>
+                        <tr>
+                            <th>Is Sensor Diffraction Limited?</th>
+                            <td id="is-diffraction-limited"></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </section>
@@ -135,6 +205,34 @@
             resultAbsoluteResolution.innerHTML = diffraction_limit.cutoffFrequency.toFixed(1);
             resultThresholdResolution.innerHTML = diffraction_limit.spatialFrequency > 0 ? diffraction_limit.spatialFrequency.toFixed(1) : 'N/A';
         });
+    </script>
+    <script src="nyquist.js"></script>
+    <script>
+            document.getElementById('sensor-size-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const long_edge_pixels = parseInt(document.getElementById('long_edge_pixels').value);
+                const long_edge_length = parseFloat(document.getElementById('long_edge_length').value);
+                const short_edge_pixels = parseInt(document.getElementById('short_edge_pixels').value);
+                const short_edge_length = parseFloat(document.getElementById('short_edge_length').value);
+
+                // Calculate Nyquist frequency in lp/mm
+                const nyquistFrequency = calculateNyquistLimit(long_edge_pixels, short_edge_pixels, long_edge_length, short_edge_length);
+
+                const nyquistResultDiv = document.getElementById('nyquist-frequency');
+                const isDiffractionLimitedDiv = document.getElementById('is-diffraction-limited');
+                const resultThresholdResolutionDiv = document.getElementById('result-threshold-resolution');
+                const nyquistResultSection = document.getElementById('nyquist-result');
+
+                nyquistResultDiv.innerHTML = nyquistFrequency.toFixed(1);
+
+                if(resultThresholdResolutionDiv.innerHTML.trim() === "") {
+                    isDiffractionLimitedDiv.innerHTML = 'Complete form above to determine if sensor is diffraction limited';
+                } else {
+                    isDiffractionLimitedDiv.innerHTML = (nyquistFrequency < parseFloat(resultThresholdResolutionDiv.innerHTML)) ? 'No' : 'Yes';
+                }
+
+                nyquistResultSection.classList.remove('is-hidden');
+            });
     </script>
 </body>
 <footer>
