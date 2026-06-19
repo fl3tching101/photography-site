@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+    <title>Seth's Photography</title>
+</head>
+<body>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="../../index.html">
+                <strong>Home</strong>
+            </a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navMenu" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="../../gallery/index.html">Gallery</a>
+                <a class="navbar-item" href="../index.html">Blog</a>
+                <a class="navbar-item" href="../../tools/index.html">Tools</a>
+                <a class="navbar-item" href="../../about.html">About Me</a>
+            </div>
+        </div>
+    </nav>
+    <script src="../../helpers/navBar.js"></script>
+    <section class="hero">
+        <div class="hero-body">
+            <p class="title">Blog</p>
+            <p class="subtitle">June 18, 2026</p>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="content">
+                <p class="title is-1">Film Scanning</p>
+                <p class="subtitle is-4">The Ultimate Rabbit Hole</p>
+                <p>
+                    A deep dive into film scanning. This is going to be a living document, whenever I learn something
+                    new I will do my best to add the information here. I'll cover some how tos, but a lot of the focus
+                    here will be on comparing different methods, tools, software, etc and seeing what works best or 
+                    what the tradeoffs are. I'll also dive into the scientific side of the optical physics involved
+                    and what limitations that imparts. So let's get into it!
+                </p>
+            </div>
+            <hr>
+            <div class="content">
+                <p class="title is-4">How to get Started</p>
+                <p>
+                    Under construction - honestly I'll probably just link to some good resources. There's no reason
+                    for me to reinvent the wheel here.
+                </p>
+                <hr>
+            </div>
+            <div class="content">
+                <p class="title is-4">The Ender of All Joy</p>
+                <p class="subtitle is-6">Vlad's Test Target</p>
+                <p>
+                    You may think your scanning setup is great! If so, you probably shouldn't buy a Vlad's Test Target...
+                </p>
+                <figure class="image">
+                    <img src="images/Sonya7r2_Nikkor60mm_f8_full_target-low-res.jpg" alt="Vlad's Test Chart scan">
+                    <figcaption class="has-text-centered  has-text-grey is-size-6">
+                        <p>Full chart scan on Sony A7RII with Micro-Nikkor 60mm f2.8 AF-D @f8</p>
+                    </figcaption>
+                </figure>
+                <p>
+                    The <a href="https://www.film4ever.info/vtt/how-to/35mm">Vlad's Test Target</a> comes in many formats, but here I'll be using
+                    the 35mm strip target. This is 3 frames of the same test target imaged on Adox CMS 20 II film. This chart allows you to see how much
+                    detail you are able to reproduce from a 35mm film scan in line pairs per mm (lp/mm). A line pair being defined as literally one black line
+                    and one white line next to each other. For simplicity we will say that one line pair is equivalent to two pixels - i.e. one black and one white pixel.
+                    This is somewhat controversial though and for good reason, but it is the easiest and simplest conversion so we will use it here. Later on I will try
+                    to expand on why this may not be sufficient, but it will be the "standard" used here. The test target has a series of smaller and smaller sets of 
+                    3 line pairs with a label. These are set in such a way that we know exactly how many lp/mm they correspond to on the film. According to 
+                    their website: "The actual resolution of targets on 35 mm Adox CMS film is 110 line pairs per mm (lp/mm) or slightly better, confirmed via optical microscopy."
+                    And I have confirmed via optical microscopy that my copy is at least good down to 123 or maybe even 138 lp/mm (albeit at fairly poor contrast).
+                </p>
+                <div class="columns is-centered">
+                    <div class="column is-one-quarter">
+                        <figure class="image">
+                            <img src="images/phone_microscope_image.jpg" alt="Microscope image of smallest test pairs">
+                            <figcaption class="has-text-centered  has-text-grey is-size-6">
+                                <p>Phone photo through an optical microscope</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                </div>
+                <p>
+                    In the above microscope image you can see the 3 line pairs pretty easily down to at least row number 2 under the 1 column. Even row 3 seems
+                    clear enough to see all 3 pairs. As can be seen in the handy diagram provided just to top right of the center of the chart, the 3rd row would
+                    correspond to 138 lp/mm.
+                </p>
+                <div class="columns is-centered">
+                    <div class="column is-half">
+                        <figure class="image">
+                            <img src="images/resolution_lpmm_chart_closeup.jpg" alt="Diagram showing lp/mm for each set of pairs">
+                            <figcaption class="has-text-centered  has-text-grey is-size-6">
+                                <p>Lp/mm mapping diagram closeup</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                </div>
+                <hr>
+            </div>
+            <div class="content">
+                <p class="title is-4">System Comparison</p>
+                <p>
+                    In the quest for the best scans, at least as far as reproduced resolution goes, I have aquired far
+                    too many digital cameras and macro lenses, then proceeded to scan the Vlad's Test Target and be dismayed.
+                    Here is an assortment of the scans with details of their respective system.
+                </p>
+                <p>
+                    <strong>Note that the corner targets contain more of the larger pairs for some reason, so the crop appears larger. But the physical pairs
+                    remain the same size for each given row/column.</strong>
+                </p>
+                <hr>
+
+                <!-- OM-5 with Oly 60mm F2.8 Start -->
+                <p class="title is-4">OM-Systems OM-5</p>
+                <p class="subtitle is-6">Olympus 60mm F2.8</p>
+                <p>
+                    Here we have my current "main" digital camera. The OM-Systems OM-5 Mk I with a first party Olympus 60mm F2.8 macro lens - a very well regarded macro for micro 4/3.
+                    These are shot in the tripod high resolution mode giving an ~80 megapixel RAW.
+                </p>
+                <div class="columns is-multiline is-vcentered">
+                    <div class="column is-half">
+                        <figure class="image">
+                            <img src="images/OM-5_Olympus60mm/Center/Oly_60mm_F4_edit.jpg" alt="...">
+                            <figcaption class="has-text-centered has-text-grey is-size-6">
+                                <p>Center F4</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="column is-half">
+                        <figure class="image">
+                            <img src="images/OM-5_Olympus60mm/Corner/Oly_60mm_F4_edit.jpg" alt="...">
+                            <figcaption class="has-text-centered has-text-grey is-size-6">
+                                <p>Corner F4</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="column is-half">
+                        <figure class="image">
+                            <img src="images/OM-5_Olympus60mm/Center/Oly_60mm_F5.6_edit.jpg" alt="...">
+                            <figcaption class="has-text-centered has-text-grey is-size-6">
+                                <p>Center F5.6</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="column is-half">
+                        <figure class="image">
+                            <img src="images/OM-5_Olympus60mm/Corner/Oly_60mm_F5.6_edit.jpg" alt="...">
+                            <figcaption class="has-text-centered has-text-grey is-size-6">
+                                <p>Corner F5.6</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="column is-half">
+                        <figure class="image">
+                            <img src="images/OM-5_Olympus60mm/Center/Oly_60mm_F8_edit.jpg" alt="...">
+                            <figcaption class="has-text-centered has-text-grey is-size-6">
+                                <p>Center F8</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="column is-half">
+                        <figure class="image">
+                            <img src="images/OM-5_Olympus60mm/Corner/Oly_60mm_F8_edit.jpg" alt="...">
+                            <figcaption class="has-text-centered has-text-grey is-size-6">
+                                <p>Corner F8</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                </div>
+                <hr>
+                <!-- OM-5 with Oly 60mm F2.8 End -->
+
+                <!-- OM-5 with Nikkor 60mm F2.8 Start -->
+                <p class="title is-4">OM-Systems OM-5</p>
+                <p class="subtitle is-6">Micro-Nikkor 60mm F2.8 AF-D</p>
+                <p>
+                    The same OM-5 Mk I as above at the same 80MP high resolution mode, but using a Micro-Nikkor 60mm F2.8 AF-D lens.
+                </p>
+                <div class="columns is-multiline is-vcentered">
+                    <div class="column is-half">
+                        <figure class="image">
+                            <img src="images/OM-5_Nikkor60mm/Center/Nikkor_60mm_f4_edit.jpg" alt="...">
+                            <figcaption class="has-text-centered has-text-grey is-size-6">
+                                <p>Center F4</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="column is-half">
+                        <figure class="image">
+                            <img src="images/OM-5_Nikkor60mm/Corner/Nikkor_60mm_f4_edit.jpg" alt="...">
+                            <figcaption class="has-text-centered has-text-grey is-size-6">
+                                <p>Corner F4</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="column is-half">
+                        <figure class="image">
+                            <img src="images/OM-5_Nikkor60mm/Center/Nikkor_60mm_f5.6_edit.jpg" alt="...">
+                            <figcaption class="has-text-centered has-text-grey is-size-6">
+                                <p>Center F5.6</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="column is-half">
+                        <figure class="image">
+                            <img src="images/OM-5_Nikkor60mm/Corner/Nikkor_60mm_f5.6_edit.jpg" alt="...">
+                            <figcaption class="has-text-centered has-text-grey is-size-6">
+                                <p>Corner F5.6</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="column is-half">
+                        <figure class="image">
+                            <img src="images/OM-5_Nikkor60mm/Center/Nikkor_60mm_f8_edit.jpg" alt="...">
+                            <figcaption class="has-text-centered has-text-grey is-size-6">
+                                <p>Center F8</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="column is-half">
+                        <figure class="image">
+                            <img src="images/OM-5_Nikkor60mm/Corner/Nikkor_60mm_f8_edit.jpg" alt="...">
+                            <figcaption class="has-text-centered has-text-grey is-size-6">
+                                <p>Corner F8</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                </div>
+                <hr>
+                <!-- OM-5 with Nikkor 60mm F2.8 End -->
+
+                <!-- Nikon D810 with Nikkor 60mm F2.8 Start -->
+                <p class="title is-4">Nikon D810</p>
+                <p class="subtitle is-6">Micro-Nikkor 60mm F2.8 AF-D</p>
+                <p>
+                    Often considered the second best DSLR Nikon ever made right after the legendary D850, we have the Nikon D810. It features a 36.3 megapixel full frame
+                    sensor. The low-pass/anti-aliasing filter was removed in the D810 vs the D800 supposedly allowing the D810 to capture extremely fine detail. <strong>Note 
+                    the somewhat odd minimum F-stop here... I'm not really sure why the D810 reports it this way, I believe it is compensating somehow for the lens extension?...</strong>
+                </p>
+                <div class="columns is-multiline is-vcentered">
+                    <div class="column is-half">
+                        <figure class="image">
+                            <img src="images/Nikon_D810_Nikkor60mm/Center/Nikkor_60mm_f4.8_edit.jpg" alt="...">
+                            <figcaption class="has-text-centered has-text-grey is-size-6">
+                                <p>Center F4.8</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="column is-half">
+                        <figure class="image">
+                            <img src="images/Nikon_D810_Nikkor60mm/Corner/Nikkor_60mm_f4.8_edit.jpg" alt="...">
+                            <figcaption class="has-text-centered has-text-grey is-size-6">
+                                <p>Corner F4.8</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="column is-half">
+                        <figure class="image">
+                            <img src="images/Nikon_D810_Nikkor60mm/Center/Nikkor_60mm_f5.6_edit.jpg" alt="...">
+                            <figcaption class="has-text-centered has-text-grey is-size-6">
+                                <p>Center F5.6</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="column is-half">
+                        <figure class="image">
+                            <img src="images/Nikon_D810_Nikkor60mm/Corner/Nikkor_60mm_f5.6_edit.jpg" alt="...">
+                            <figcaption class="has-text-centered has-text-grey is-size-6">
+                                <p>Corner F5.6</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="column is-half">
+                        <figure class="image">
+                            <img src="images/Nikon_D810_Nikkor60mm/Center/Nikkor_60mm_f8_edit.jpg" alt="...">
+                            <figcaption class="has-text-centered has-text-grey is-size-6">
+                                <p>Center F8</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="column is-half">
+                        <figure class="image">
+                            <img src="images/Nikon_D810_Nikkor60mm/Corner/Nikkor_60mm_f8_edit.jpg" alt="...">
+                            <figcaption class="has-text-centered has-text-grey is-size-6">
+                                <p>Corner F8</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                </div>
+                <hr>
+                <!-- Nikon D810 with Nikkor 60mm F2.8 End -->
+
+                <!-- Sony A7RII with Nikkor 60mm F2.8 End -->
+                <p class="title is-4">Sony A7RII</p>
+                <p class="subtitle is-6">Micro-Nikkor 60mm F2.8 AF-D</p>
+                <p>
+                    The Sony A7RII is very popular for film scanning and you'll see why below. It features a 42.4 megapixel full frame sensor in a mirrorless body 
+                    allowing for easily adapting cheap and high quality vintage macro lenses. 
+                </p>
+                <div class="columns is-multiline is-vcentered">
+                    <div class="column is-half">
+                        <figure class="image">
+                            <img src="images/Sony_A7RII_Nikkor60mm/Center/Nikkor60mm_f4_edit.jpg" alt="...">
+                            <figcaption class="has-text-centered has-text-grey is-size-6">
+                                <p>Center F4</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="column is-half">
+                        <figure class="image">
+                            <img src="images/Sony_A7RII_Nikkor60mm/Corner/Nikkor60mm_f4_edit.jpg" alt="...">
+                            <figcaption class="has-text-centered has-text-grey is-size-6">
+                                <p>Corner F4</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="column is-half">
+                        <figure class="image">
+                            <img src="images/Sony_A7RII_Nikkor60mm/Center/Nikkor60mm_f5.6_edit.jpg" alt="...">
+                            <figcaption class="has-text-centered has-text-grey is-size-6">
+                                <p>Center F5.6</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="column is-half">
+                        <figure class="image">
+                            <img src="images/Sony_A7RII_Nikkor60mm/Corner/Nikkor60mm_f5.6_edit.jpg" alt="...">
+                            <figcaption class="has-text-centered has-text-grey is-size-6">
+                                <p>Corner F5.6</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="column is-half">
+                        <figure class="image">
+                            <img src="images/Sony_A7RII_Nikkor60mm/Center/Nikkor60mm_f8_edit.jpg" alt="...">
+                            <figcaption class="has-text-centered has-text-grey is-size-6">
+                                <p>Center F8</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="column is-half">
+                        <figure class="image">
+                            <img src="images/Sony_A7RII_Nikkor60mm/Corner/Nikkor60mm_f8_edit.jpg" alt="...">
+                            <figcaption class="has-text-centered has-text-grey is-size-6">
+                                <p>Corner F8</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                </div>
+                <hr>
+                <!-- Sony A7RII with Nikkor 60mm F2.8 End -->
+
+                <!-- Primefilm XEs End -->
+                <p class="title is-4">Primefilm XE Super Edition</p>
+                <p>
+                    Camera scanning is all the rage, but what about a dedicated film scanner? I picked this one up for around ~$120 on eBay. It is punching
+                    way above its price tag though! I would rate its scan almost as good as the Sony A7RII! Perhaps even overall better as the corner looks just
+                    as clean as the center, though at a very slight loss in resolution vs the A7RII.
+                </p>
+                <div class="columns is-multiline is-vcentered">
+                    <div class="column is-half">
+                        <figure class="image">
+                            <img src="images/Primefilm_XEs/Center/filmscan0074_edit.jpg" alt="...">
+                            <figcaption class="has-text-centered has-text-grey is-size-6">
+                                <p>Center</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="column is-half">
+                        <figure class="image">
+                            <img src="images/Primefilm_XEs/Corner/filmscan0074_edit.jpg" alt="...">
+                            <figcaption class="has-text-centered has-text-grey is-size-6">
+                                <p>Corner</p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                </div>
+                <hr>
+                <!-- Primefilm XEs End -->
+                
+            </div>
+            <div class="content">
+                <p class="title is-4">Some Observations</p>
+                <p>
+                    Under construction
+                </p>
+                <hr>
+            </div>
+        </div>
+    </section>
+
+</body>
+<footer>
+    <div class="content has-text-centered">
+        <p>&copy; 2026 Seth's Photography. All rights reserved.</p>
+    </div>
+</footer>
+</html>
